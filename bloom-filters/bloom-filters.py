@@ -21,22 +21,22 @@ class BloomFilter:
         return True
 
 
-# Let's define two simple hash functions using hashlib
-def hash1(item):
+def md5_hash(item):
     return int(hashlib.md5(item.encode()).hexdigest(), 16)
 
 
-def hash2(item):
+def sha256_hash(item):
     return int(hashlib.sha256(item.encode()).hexdigest(), 16)
 
 
-# Testing our Bloom Filter
-bf = BloomFilter(1000, [hash1, hash2])
+# Create a bloom filter with 1000 bits and 2 hash functions
+bf = BloomFilter(1000, [md5_hash, sha256_hash])
 
+# Add items to the bloom filter
 items_to_add = ["apple", "banana", "cherry"]
 for item in items_to_add:
     bf.add(item)
 
-# Check items
-for item in ["apple", "banana", "cherry", "date", "fig"]:
+# Check if items are in the bloom filter
+for item in ["apple", "banana", "date", "fig", "cherry"]:
     print(f"Is {item} in the set? {'Yes' if bf.might_contain(item) else 'No'}")
