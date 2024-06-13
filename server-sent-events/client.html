@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Market Updates</title>
+</head>
+
+<body>
+    <h1>Real-Time Stock Market Updates</h1>
+    <div id="updates"></div>
+
+    <script>
+        const evtSource = new EventSource("http://127.0.0.1:5000/stock-updates");
+        const updatesDiv = document.getElementById("updates");
+    
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            updatesDiv.innerHTML += `Stock: ${data.stock}, Price: ${data.price}<br>`;
+        };
+    </script>    
+</body>
+
+</html>

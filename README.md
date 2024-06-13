@@ -2,6 +2,8 @@
 
 ### Consistent Hashing
 
+### GeoHashing
+
 ### Bloom Filter
 
 ### Fingerprinting

@@ -1,6 +1,7 @@
 import hashlib
 import bisect
 from typing import List
+from pprint import pprint
 
 
 class Node:
@@ -20,7 +21,7 @@ class Node:
 
 
 class ConsistentHashing:
-    def __init__(self, nodes: List[Node] = None, num_replicas: int = 100) -> None:
+    def __init__(self, nodes: List[Node] = None, num_replicas: int = 5) -> None:
         """
         Initializes the class
 
@@ -37,6 +38,9 @@ class ConsistentHashing:
 
         for node in nodes:
             self.add_node(node)
+
+    def __repr__(self) -> str:
+        return self.ring.__repr__()
 
     def hash(self, key: str) -> int:
         """
@@ -87,6 +91,9 @@ if __name__ == "__main__":
     # Create a consistent hashing ring with the 3 nodes
     ch = ConsistentHashing([node1, node2, node3])
 
+    # Print the ring
+    pprint(ch)
+
     # Create 10 data points
     data_points = [f"data{i}" for i in range(10)]
 
@@ -111,6 +118,23 @@ if __name__ == "__main__":
         print(f"{data_point}: {ch.get_node(data_point)}")
 
     # Number of data points that are remapped to a different node after adding 2 new nodes
+    num_remapped = 0
+    for data_point in data_points:
+        if initial_mapping[data_point] != remapping[data_point]:
+            num_remapped += 1
+    print(f"\nNumber of data points remapped to a different node: {num_remapped}")
+
+    # Remove node 1
+    ch.remove_node(node1)
+    
+    # Check the node responsible for each data point again
+    print(f"\nMapping of data points to nodes after removing node 1")
+    remapping = {}
+    for data_point in data_points:
+        remapping[data_point] = ch.get_node(data_point)
+        print(f"{data_point}: {ch.get_node(data_point)}")
+
+    # Number of data points that are remapped to a different node after removing node 1
     num_remapped = 0
     for data_point in data_points:
         if initial_mapping[data_point] != remapping[data_point]:
