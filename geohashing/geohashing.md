@@ -32,7 +32,8 @@ Play with it at https://geohash.softeng.co/
 
 The geohash for my location upto 4 characters is `te7u`.
 
-> Note: Geohashes rely on Hilbert's curve to divide the world into a grid of cells. This is a space-filling curve that can be used to map a multi-dimensional space into a one-dimensional space. This allows us to represent a location on the Earth's surface as a single number, which can then be converted into a geohash.
+> [!NOTE]
+> Geohashes rely on Hilbert's curve to divide the world into a grid of cells. This is a space-filling curve that can be used to map a multi-dimensional space into a one-dimensional space. This allows us to represent a location on the Earth's surface as a single number, which can then be converted into a geohash.
 
 ### Benefits of Geohashing
 - Compact representation of location: database can store geohashes instead of coordinates

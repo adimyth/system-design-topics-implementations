@@ -6,7 +6,7 @@
 * [Data Archival](./data-archival/README.md)
 * [GeoHashing](./geohashing/geohashing.md)
 * [HyperLogLog](./hyperloglog/hyperloglog.py)
-* [Kafka Basics](./kafka-playground/README.md)
+* [Kafka Realtime ETL](https://github.com/adimyth/kafka-realtime-etl)
 * [PgPool](./pgpool/README.md)
 * [QuadTrees](./point-quadtree/point-quadtree.md)
 * [PubSub vs Queues](./pubsub-vs-queues/README.md)

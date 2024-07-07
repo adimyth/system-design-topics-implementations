@@ -44,7 +44,8 @@ Similarly, we can use the MD5 hash of the data point to map the data point to a 
 
 To assign a data point to the server, we go clockwise & find the next server on the hash ring. The server that is responsible for the data point is the first server that we encounter.
 
-*In our case, we  are using `bisect.bisect` to find the index of the first node hash that is greater than or equal to the key hash.*
+> ![NOTE]
+> *In our case, we  are using `bisect.bisect` to find the index of the first node hash that is greater than or equal to the key hash.*
 
 ```python
 def get_node(self, key: str) -> Node:

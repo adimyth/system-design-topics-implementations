@@ -14,6 +14,7 @@ The code or query is parsed to produce an AST. An AST represents the syntactic s
 
 For SQL queries, an AST would represent the structure of the query, with nodes for `SELECT`, `WHERE`, `JOIN` clauses, and so on. ASTs abstract away from the exact textual representation and focus on the underlying logic or intent of the code.
 
+> [!TIP]
 > This is useful for semantic deduplication, where we want to detect queries that are semantically equivalent but have different textual representations.
 
 ### Hashing

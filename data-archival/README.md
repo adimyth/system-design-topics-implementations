@@ -12,6 +12,7 @@ Assume that your application tracks user events in our app and stores them in yo
 
 
 ## Solution
+> [!TIP]
 > ***With the above scenario, the idea is to keep just the most recent data (needed for ETL jobs & others) & archive (store to S3 & then delete the data from the table) the older data to free up the space.***
 
 1. For all the client databases
