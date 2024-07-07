@@ -1,5 +1,6 @@
 # System Design Topics & Algorithms
 
+* [API Pagination](./api-pagination/README.md)
 * [Bloom Filters](./bloom-filters/bloom-filters.md)
 * [Code Fingerprinting](./code-fingerprinting/code-fingerprinting.md)
 * [Consistent Hashing](./consistent-hashing/consistent-hashing.md)
