@@ -3,6 +3,7 @@
 * [Bloom Filters](./bloom-filters/bloom-filters.md)
 * [Code Fingerprinting](./code-fingerprinting/code-fingerprinting.md)
 * [Consistent Hashing](./consistent-hashing/consistent-hashing.md)
+* [Data Archival](./data-archival/README.md)
 * [GeoHashing](./geohashing/geohashing.md)
 * [HyperLogLog](./hyperloglog/hyperloglog.py)
 * [Kafka Basics](./kafka-playground/README.md)

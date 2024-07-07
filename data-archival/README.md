@@ -78,6 +78,9 @@ Originally, the script was fetching data at a day level. Indexing helping in rea
 
 So, I changed the script to fetch data at an hour level. This reduced the amount of data that we were reading at a time & made the script faster.
 
+> **Note**
+> This was also due to the fact that we were using offset based pagination to fetch data. This is not recommended as it is slow & inefficient. Instead, we should use keyset pagination. If the performance after moving to hour level data fetching would have been below the acceptable threshold, I would have moved to keyset pagination.
+
 ---
 
 ### VACUUM FULL
