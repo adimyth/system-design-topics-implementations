@@ -241,6 +241,10 @@ These columns should form a unique key for each row to ensure consistent orderin
 | Suitable for complex sorting    | No                   | No                     | No                | Yes               |
 | Suitable for non-sequential IDs | No                   | No                     | No                | Yes               |
 
+
+> [!IMPORTANT]
+> *Many products are moving away from page number based navigation to infinite scroll. Keyset pagination works well with infinite scroll UIs. Ex - Google search results.*
+
 ## Cursor vs Keyset Pagination
 They both look very simiar to me. So, what's the difference between Cursor and Keyset Pagination?
 
