@@ -243,7 +243,9 @@ These columns should form a unique key for each row to ensure consistent orderin
 
 
 > [!IMPORTANT]
-> *Many products are moving away from page number based navigation to infinite scroll. Keyset pagination works well with infinite scroll UIs. Ex - Google search results.*
+> *Many products are moving away from page number based navigation to infinite scroll. Keyset pagination works well with infinite scroll UIs. Ex - Google search results.* 
+> This move from page-based navigation to infinite scroll is driven by the need for a more seamless user experience, especially on mobile devices. This is a tick for keyset pagination.
+> As far as the pagination on the server-side is concerned, keyset pagination is more efficient and scalable than cursor-based pagination. It can handle large datasets and complex sorting requirements more effectively. References - https://www.seoclarity.net/blog/pagination-vs-infinite-scroll
 
 ## Cursor vs Keyset Pagination
 They both look very simiar to me. So, what's the difference between Cursor and Keyset Pagination?
