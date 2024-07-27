@@ -299,3 +299,152 @@ LIMIT 10;
 ```
 
 In this keyset example, we're paginating based on both price and id, which would be more complex with cursor-based pagination.
+
+
+## Keyset Pagination with Filters
+
+| ID  | Name               | Price($) | Category   |
+| --- | ------------------ | -------- | ---------- |
+| 101 | iPhone 13 Pro Max  | 1099.99  | Smartphone |
+| 102 | Samsung S21 Ultra  | 1199.99  | Smartphone |
+| 103 | Google Pixel 6 Pro | 899.99   | Smartphone |
+| 104 | OnePlus 9 Pro      | 969.99   | Smartphone |
+| 105 | iPhone 13          | 799.99   | Smartphone |
+| 106 | Samsung S21        | 799.99   | Smartphone |
+| 107 | Google Pixel 6     | 599.99   | Smartphone |
+| 108 | OnePlus 9          | 729.99   | Smartphone |
+| 109 | iPhone 12          | 699.99   | Smartphone |
+| 110 | Xiaomi Mi 11       | 749.99   | Smartphone |
+| 201 | iPad Pro           | 799.99   | Tablet     |
+| 202 | Samsung Galaxy Tab | 649.99   | Tablet     |
+
+Requirements:
+* Filter: Category = Smartphone, Price between $700 and $1000
+* Sort: Price descending, then ID ascending
+* Page size: 3 items per page
+
+### First Page
+API Request
+```json
+{
+  "filters": {
+    "category": "Smartphone",
+    "minPrice": 700,
+    "maxPrice": 1000
+  },
+  "sort": {
+    "field": "price",
+    "order": "DESC"
+  },
+  "pageSize": 3
+}
+```
+
+SQL Query
+```sql
+SELECT * FROM products
+WHERE category = 'Smartphone'
+  AND price BETWEEN 700 AND 1000
+ORDER BY price DESC, id ASC
+LIMIT 3;
+```
+
+Result
+| ID  | Name               | Price($) | Category   |
+| --- | ------------------ | -------- | ---------- |
+| 104 | OnePlus 9 Pro      | 969.99   | Smartphone |
+| 103 | Google Pixel 6 Pro | 899.99   | Smartphone |
+| 110 | Xiaomi Mi 11       | 749.99   | Smartphone |
+
+API Response
+```sql
+{
+  "items": [
+    {"id": 104, "name": "OnePlus 9 Pro", "price": 969.99, "category": "Smartphone"},
+    {"id": 103, "name": "Google Pixel 6 Pro", "price": 899.99, "category": "Smartphone"},
+    {"id": 110, "name": "Xiaomi Mi 11", "price": 749.99, "category": "Smartphone"}
+  ],
+  "nextPageKey": {
+    "price": 749.99,
+    "id": 110
+  }
+}
+```
+
+### Second Page
+API Request
+```json
+{
+  "filters": {
+    "category": "Smartphone",
+    "minPrice": 700,
+    "maxPrice": 1000
+  },
+  "sort": {
+    "field": "price",
+    "order": "DESC"
+  },
+  "pageSize": 3,
+  "keyset": {
+    "price": 749.99,
+    "id": 110
+  }
+}
+```
+
+#### 🚨 Using Only ID in Keyset (Incorrect Approach)
+My initial thought was to use just the id as the key for the "keyset pagination" part.
+
+SQL query:
+```sql
+SELECT * FROM products
+WHERE category = 'Smartphone'
+  AND price BETWEEN 700 AND 1000
+  AND id > 110
+ORDER BY price DESC, id ASC
+LIMIT 3;
+```
+
+Result
+| ID  | Name | Price($) | Category |
+| --- | ---- | -------- | -------- |
+| -   | -    | -        | -        |
+
+(No results returned)
+
+> [!WARNING]
+* Returns no results because there are no products with ID > 110 that meet the price range criteria.
+* Misses the OnePlus 9, iPhone 13, and Samsung S21, which should be included based on the price sorting.
+
+### ✅ Using Both Price and ID in Keyset (Correct Approach)
+SQL query:
+```sql
+SELECT * FROM products
+-- Filter condition
+WHERE category = 'Smartphone' AND price BETWEEN 700 AND 1000
+-- Keyset condition
+  AND (price < 749.99 OR (price = 749.99 AND id > 110))
+-- Ordering
+ORDER BY price DESC, id ASC
+LIMIT 3;
+```
+
+Result
+| ID  | Name        | Price($) | Category   |
+| --- | ----------- | -------- | ---------- |
+| 108 | OnePlus 9   | 729.99   | Smartphone |
+| 105 | iPhone 13   | 799.99   | Smartphone |
+| 106 | Samsung S21 | 799.99   | Smartphone |
+
+* Correctly returns the next set of products in descending price order.
+* Includes all products that meet the criteria, regardless of their ID.
+
+### Conclusion
+1️⃣ Apply filters (e.g., category, price range) in the `WHERE` clause.
+
+2️⃣ Add a keyset condition that compares all `ORDER BY` fields, using `<` for `DESC` and `>` for `ASC` sorting.
+* In our case, this translates to `AND (price < 749.99 OR (price = 749.99 AND id > 110))` because:
+  * We're sorting by price `DESC` (hence `<`), then by id `ASC` (hence `>`).
+  * We use `OR` to handle cases where prices are equal, ensuring we don't skip items with the same price.
+
+This structure maintains the correct order when moving to the next page, considering both sorting fields.
