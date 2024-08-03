@@ -392,7 +392,7 @@ API Request
 }
 ```
 
-#### 🚨 Using Only ID in Keyset (Incorrect Approach)
+### 🚨 Using Only ID in Keyset (Incorrect Approach)
 My initial thought was to use just the id as the key for the "keyset pagination" part.
 
 SQL query:
