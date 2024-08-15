@@ -2,6 +2,7 @@
 
 * [API Pagination](./api-pagination/README.md)
 * [Bloom Filters](./bloom-filters/bloom-filters.md)
+* [Database Joins](./database-joins/database-joins.md) - Implements `Nested Loop Join`, `Hash Join`, `Merge Join`
 * [Code Fingerprinting](./code-fingerprinting/code-fingerprinting.md)
 * [Consistent Hashing](./consistent-hashing/consistent-hashing.md)
 * [Data Archival](./data-archival/README.md)

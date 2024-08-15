@@ -23,6 +23,7 @@ Several strategies can help postpone the need for sharding:
 - Optimize `VACUUM`: Tune `autovacuum` settings and schedule manual `VACUUM` operations during off-peak hours.
 - Denormalization: Strategically denormalize data to ***reduce `JOIN` operations*** and improve query performance.
 - Database tuning: Optimize PostgreSQL configuration parameters for your specific workload.
+- Vertical Partitioning: Create multiple DBs and store different types of data in different DBs. Ex - User data in one DB, Order data in another DB, etc. Figma did this for a while.
 
 ---
 
@@ -51,14 +52,17 @@ Besides data size, consider sharding when:
 - Cost-effective scaling: Can scale horizontally with commodity hardware instead of scaling up expensive, high-end servers.
 
 ❌ Disadvantages:
-- Increased complexity: Managing multiple database instances is more complex than a single instance.
+- Operational complexity: Managing multiple database instances is more complex than a single instance.
 - Data distribution challenges: Choosing an effective sharding key and strategy can be difficult.
 - Cross-shard operations: Queries spanning multiple shards can be slow and complex to implement.
+- Cross Shard JOIN operations: JOINs across shards are often not possible or very inefficient.
 - Potential data inconsistency: Maintaining consistency across shards can be challenging, especially with transactions spanning multiple shards.
 - Backup and restore complexity: Managing backups and restores across multiple shards is more involved.
 - Schema changes: Updating schema across all shards can be time-consuming and error-prone.
-- Cross Shard JOIN operations: JOINs across shards are often not possible or very inefficient.
 - Rebalancing data: As data grows, redistributing data across shards can be a complex operation.
+- Transactions now span multiple shards, meaning Postgres can no longer be used to enforce transactionality. It is now possible that writes to one shard succeed while writes to another shard fail, leading to inconsistent data.
+- Global unique ID generation for horizontally sharded primary keys.
+- Distributed globally "UNIQUE" constraints.
 
 ---
 
@@ -142,3 +146,7 @@ Use the logical-to-physical mapping to find the correct physical shard
 * Application Updates: Similar to adding shards, the application needs to be updated to stop using the removed shard.
 * Downtime Consideration: Removing a shard might require system downtime, depending on your architecture.
 * Backup Importance: It's crucial to have robust backups before removing a shard to prevent data loss.
+
+## Excellent Resources
+- [Herding elephants: Lessons learned from sharding Postgres at Notion](https://www.notion.so/blog/sharding-postgres-at-notion)
+- [How Figma’s databases team lived to tell the scale](https://www.figma.com/blog/how-figmas-databases-team-lived-to-tell-the-scale/)
