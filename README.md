@@ -2,11 +2,16 @@
 
 * [API Pagination](./api-pagination/README.md)
 * [Bloom Filters](./bloom-filters/bloom-filters.md)
-* [Database Joins](./database-joins/database-joins.md) - Implements `Nested Loop Join`, `Hash Join`, `Merge Join`
+* [Database Joins](./database-joins/database-joins.md)
+  * [Nested Loop Join](./database-joins/nested_loop_join.py)
+  * [Hash Join](./database-joins/hash_join.py)
+  * [Merge Join](./database-joins/merge_join.py)
 * [Code Fingerprinting](./code-fingerprinting/code-fingerprinting.md)
 * [Consistent Hashing](./consistent-hashing/consistent-hashing.md)
 * [Data Archival](./data-archival/README.md)
-* [GeoHashing](./geohashing/geohashing.md)
+* Spatial Indexing
+  * [GeoHashing](./spatial-indexing/geohashing/geohashing.py)
+  * [Quadtrees](./spatial-indexing/quadtrees/quadtree.py)
 * [HyperLogLog](./hyperloglog/hyperloglog.py)
 * [Kafka Realtime ETL](https://github.com/adimyth/kafka-realtime-etl)
 * [PgPool](./pgpool/README.md)

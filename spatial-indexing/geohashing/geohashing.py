@@ -4,21 +4,21 @@ def get_longitude_representation(longitude: float, precision: float) -> str:
 
     Interval Range: [-180, 180).
 
-    Operation
-    1. We will partition the interval into 2 equal parts. If our longitude lies to the left of the midpoint we will assign it a value of 0. Otherwise, we will assign it a value of 1.
-    2. When partitioning the midpoint does not belong to the left interval. We will assign it to the right interval. Meaning, when we dividing the interval [-180, 180) into 2 equal parts, we will assign the midpoint 0 to the right interval.
-    3. We do this operation until we reach the desired precision.
+    Operation:
+    1. We partition the interval into 2 equal parts. If the longitude lies to the left of the midpoint assign it 0, otherwise assign 1.
+    2. The midpoint belongs to the right interval. Ex - when dividing the interval [-180, 180) into 2 parts, the midpoint belongs to the right interval.
+    3. We continue this process until we reach the desired precision.
     """
-    initial_interval = (-180, 180)
+    left_boundary, right_boundary = -180, 180
     representation = ""
     for i in range(precision):
-        midpoint = (initial_interval[0] + initial_interval[1]) / 2
+        midpoint = (left_boundary + right_boundary) / 2
         if longitude < midpoint:
             representation += "0"
-            initial_interval = (initial_interval[0], midpoint)
+            right_boundary = midpoint
         else:
             representation += "1"
-            initial_interval = (midpoint, initial_interval[1])
+            left_boundary = midpoint
     return representation
 
 
@@ -28,21 +28,21 @@ def get_latitude_representation(latitude: float, precision: float) -> str:
 
     Interval Range: [-90, 90).
 
-    Operation
-    1. We will partition the interval into 2 equal parts. If our latitude lies above the midpoint, we will assign it a value of 1. Otherwise, we will assign it a value of 0.
-    2. When partitioning the midpoint does not belong to the left interval. We will assign it to the right interval. Meaning, when we dividing the interval [-90, 90) into 2 equal parts, we will assign the midpoint 0 to the right interval.
-    3. We do this operation until we reach the desired precision.
+    Operation:
+    1. We partition the interval into 2 equal parts. If the latitude lies above the midpoint assign it 0, otherwise assign 1.
+    2. The midpoint belongs to the lower interval. Ex - when dividing the interval [-90, 90) into 2 parts, the midpoint belongs to the lower interval.
+    3. We continue this process until we reach the desired precision.
     """
-    initial_interval = (-90, 90)
+    top_boundary, bottom_boundary = 90, -90
     representation = ""
     for i in range(precision):
-        midpoint = (initial_interval[0] + initial_interval[1]) / 2
+        midpoint = (top_boundary + bottom_boundary) / 2
         if latitude < midpoint:
             representation += "0"
-            initial_interval = (initial_interval[0], midpoint)
+            top_boundary = midpoint
         else:
             representation += "1"
-            initial_interval = (midpoint, initial_interval[1])
+            bottom_boundary = midpoint
     return representation
 
 
