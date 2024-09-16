@@ -1,4 +1,18 @@
-# PubSub vs Queues
+# Message Queues and Event Streaming Platforms
+
+Advantages of message queues:
+1. Decoupling: Message queues eliminate the tight coupling between components so they can be updated independently.
+2. Improved scalability: We can scale producers and consumers independently.
+3. Increased reliablity: Messages are stored in the queue until they are processed, so they are not lost if a consumer fails.
+4. Increased availability: If one part of the system goes offline, the othe components can continue to interact with the queue.
+5. Better performance: Message queues make async communication easy. Producers and consumers don't need to wait for each other
+
+
+# Message Queues vs Event Streaming Platforms
+
+There is a convergence of features that starts to blur the distinction between message queues (RabbitMQ) and event streaming platforms (Kafka, Pulsar, etc). Example:
+1. RabbitMQ has added an optional streams feature that allows repeated messge consumption and long message retention. It's implementation is append only log much like an event streaming platform would.
+2. Apache Pulsar is flexible enough to be used as a message queue.
 
 ## Kafka vs Redis
 | Kafka                                                                                                  | Redis                                                                                                                                                                             |

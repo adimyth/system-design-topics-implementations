@@ -99,29 +99,33 @@ def geohash_radius_search(center, radius_km, points):
     # Include the center point in the search
     neighbor_hashes.append(center_hash)
 
-    results = []
     # For each point, check if it is within the radius of the center point
-    for point in points:
+    for city, point in points.items():
         lat, lon = point
         point_hash = geohash_encode((lat, lon), precision)
         if point_hash in neighbor_hashes:
             distance = haversine_distance(center_lat, center_lon, lat, lon)
             if distance <= radius_km:
-                results.append(point)
-
-    return results
+                print(f"{city}: {distance:.2f} km")
 
 
-center = (40.7128, -74.0060)  # New York City
-radius_km = 10
-points = [
-    (40.7589, -73.9851),  # Within radius
-    (40.7082, -74.0132),  # Within radius
-    (40.7829, -73.9654),  # Outside radius
-    (42.3601, -71.0589),  # Boston, far outside radius
-]
+indian_cities = {
+    "Mumbai": (19.0760, 72.8777),
+    "Delhi": (28.7041, 77.1025),
+    "Bangalore": (12.9716, 77.5946),
+    "Hyderabad": (17.3850, 78.4867),
+    "Ahmedabad": (23.0225, 72.5714),
+    "Chennai": (13.0827, 80.2707),
+    "Kolkata": (22.5726, 88.3639),
+    "Surat": (21.1702, 72.8311),
+    "Pune": (18.5204, 73.8567),
+    "Jaipur": (26.9124, 75.7873),
+    "Lucknow": (26.8467, 80.9462),
+}
 
-results = geohash_radius_search(center, radius_km, points)
+# Search for points within a radius of X km from the center of Mumbai
+center = (19.0760, 72.8777)  # Mumbai
+radius_km = 1000
+
 print(f"Points within {radius_km} km of {center}:")
-for point in results:
-    print(point)
+geohash_radius_search(center, radius_km, indian_cities)
